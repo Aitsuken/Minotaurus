@@ -46,7 +46,7 @@ public class Main extends Application {
         BackgroundImage backGr = new BackgroundImage(new Image("https://imgur.com/a/A091Cye",1280,720,false,true),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         Image image = new Image("/sample/minotaur.png");
-        ImageView view = new ImageView(backGr);
+        ImageView view = new ImageView(image);
 
         MediaPlayer clickPlayer = new MediaPlayer(click);
 
@@ -71,8 +71,7 @@ public class Main extends Application {
         x+=110;
         bExit.setLayoutY(x);
 
-        Group root = new Group( bStart, bExit, bSettings, bAbout);
-        root.getChildren().addAll(view);
+        Group root = new Group(view,bStart, bExit, bSettings, bAbout);
 
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
         stage.setTitle("Minotaurus");
