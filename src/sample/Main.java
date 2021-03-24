@@ -6,10 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundImage;
@@ -41,14 +39,22 @@ public class Main extends Application {
 
         //System.out.println("Working Directory = " + System.getProperty("user.dir"));
         String playClick = System.getProperty("user.dir") + "/src/sounds/select.wav";
+        String srcMenuMusic = System.getProperty("user.dir") + "/src/sounds/menu.mp3";
+
         String picture = System.getProperty("user.dir") + "/src/minotaur.png";
+
+
         Media click = new Media(new File(playClick).toURI().toString());
-        BackgroundImage backGr = new BackgroundImage(new Image("https://imgur.com/a/A091Cye",1280,720,false,true),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        Image image = new Image("/sample/minotaur.png");
-        ImageView view = new ImageView(image);
+        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());
 
         MediaPlayer clickPlayer = new MediaPlayer(click);
+        MediaPlayer menuPlay = new MediaPlayer(menuMusic);
+
+        Image image = new Image("/sample/minotaur.png");
+        ImageView view = new ImageView(image);
+        ImageView view1 = new ImageView(image);
+        ImageView view2 = new ImageView(image);
+
 
         //Buttons for menu
         int x = 0;
@@ -57,6 +63,7 @@ public class Main extends Application {
         Button bAbout = new Button("About");
         Button bExit = new Button("Exit");
 
+        Button bBack = new Button("back");
 
         bStart.setPrefSize(200, 100);
         bExit.setPrefSize(200, 100);
@@ -71,18 +78,49 @@ public class Main extends Application {
         x+=110;
         bExit.setLayoutY(x);
 
-        Group root = new Group(view,bStart, bExit, bSettings, bAbout);
+        bBack.setPrefSize(200, 100);
+        bBack.setLayoutY(500);
+        bBack.setLayoutX(200);
 
+
+        String strAbout = "Minotaurus - is a not so funny game about mazes and running away from " +
+                "minotaur. So far there is not minotaur yet. But I will probably add him on finals. " +
+                "For it is a simple maze with almost no difficulties. Enjoy your short  time wasting!";
+        Label lAbout = new Label(strAbout);
+        //lAbout.setPrefSize(10, 20);
+        lAbout.autosize();
+        //lAbout.setRotate(270);
+        lAbout.setFont(Font.font("Cambria", 32));
+        lAbout.setWrapText(true);
+        lAbout.setMaxWidth(400);
+        lAbout.setLayoutX(20);
+
+        lAbout.setTextFill(Color.web("#ffffff", 0.8));
+
+
+        Group root = new Group(view,bStart, bExit, bSettings, bAbout);
+        Group gRoot = new Group(view1);
+        Group sRoot = new Group(view2, bBack);
+        Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
+        menuPlay.play();
+
+        Scene sGame = new Scene(gRoot, 1280, 720, Color.BEIGE);
+        Scene sAbout = new Scene(aRoot, 1280, 720, Color.BEIGE);
+        Scene sSettings = new Scene(sRoot, 1280, 720, Color.BEIGE);
+
+
         stage.setTitle("Minotaurus");
         stage.setScene(scene);
         stage.show();
+
 
         bStart.setOnAction(actionEvent ->  {
             clickPlayer.play();
             clickPlayer.setOnEndOfMedia(() -> {
                 clickPlayer.stop();
             });
+            stage.setScene(sGame);
         });
 
         bSettings.setOnAction(actionEvent ->  {
@@ -90,6 +128,8 @@ public class Main extends Application {
             clickPlayer.setOnEndOfMedia(() -> {
                 clickPlayer.stop();
             });
+            stage.setScene(sSettings);
+
         });
 
         bAbout.setOnAction(actionEvent ->  {
@@ -97,6 +137,7 @@ public class Main extends Application {
             clickPlayer.setOnEndOfMedia(() -> {
                 clickPlayer.stop();
             });
+            stage.setScene(sAbout);
         });
 
         bExit.setOnAction(actionEvent ->  {
@@ -104,7 +145,15 @@ public class Main extends Application {
             clickPlayer.setOnEndOfMedia(() -> {
                 exit();
             });
+        });
 
+        //aux buttons
+        bBack.setOnAction(actionEvent ->  {
+            clickPlayer.play();
+            clickPlayer.setOnEndOfMedia(() -> {
+                clickPlayer.stop();
+            });
+            stage.setScene(scene);
         });
 
     }
