@@ -2,31 +2,23 @@ package sample;
 
 
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 
 import javafx.scene.control.*;
-import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static javafx.application.Platform.exit;
 
@@ -54,6 +46,7 @@ public class Main extends Application {
         ImageView view = new ImageView(image);
         ImageView view1 = new ImageView(image);
         ImageView view2 = new ImageView(image);
+        ImageView view3 = new ImageView(image);
 
 
         //Buttons for menu
@@ -63,24 +56,40 @@ public class Main extends Application {
         Button bAbout = new Button("About");
         Button bExit = new Button("Exit");
 
-        Button bBack = new Button("back");
+        Button bBack = new Button("Back");
+        Button bBack2 = new Button("Back");
+        Button bSound = new Button("Sound: ON");
+        Button bMusic = new Button("Music: ON");
 
         bStart.setPrefSize(200, 100);
         bExit.setPrefSize(200, 100);
         bSettings.setPrefSize(200, 100);
         bAbout.setPrefSize(200, 100);
 
-        bStart.setLayoutY(x);
-        x+=110;
+        bStart.setLayoutY(x+10);
+        x+=120;
         bSettings.setLayoutY(x);
         x+=110;
         bAbout.setLayoutY(x);
         x+=110;
         bExit.setLayoutY(x);
 
+
         bBack.setPrefSize(200, 100);
         bBack.setLayoutY(500);
         bBack.setLayoutX(200);
+
+        bBack2.setPrefSize(200, 100);
+        bBack2.setLayoutY(500);
+        bBack2.setLayoutX(200);
+
+
+        bSound.setPrefSize(200, 100);
+        bSound.setLayoutY(200);
+        bSound.setLayoutX(200);
+        bMusic.setPrefSize(200, 100);
+        bMusic.setLayoutY(200);
+        bMusic.setLayoutX(500);
 
 
         String strAbout = "Minotaurus - is a not so funny game about mazes and running away from " +
@@ -97,10 +106,9 @@ public class Main extends Application {
 
         lAbout.setTextFill(Color.web("#ffffff", 0.8));
 
-
         Group root = new Group(view,bStart, bExit, bSettings, bAbout);
         Group gRoot = new Group(view1);
-        Group sRoot = new Group(view2, bBack);
+        Group sRoot = new Group(view3, bBack2, bSound, bMusic);
         Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
         menuPlay.play();
@@ -120,7 +128,7 @@ public class Main extends Application {
             clickPlayer.setOnEndOfMedia(() -> {
                 clickPlayer.stop();
             });
-            stage.setScene(sGame);
+            //stage.setScene(sGame);
         });
 
         bSettings.setOnAction(actionEvent ->  {
@@ -155,6 +163,58 @@ public class Main extends Application {
             });
             stage.setScene(scene);
         });
+
+        bBack2.setOnAction(actionEvent ->  {
+            clickPlayer.play();
+            clickPlayer.setOnEndOfMedia(() -> {
+                clickPlayer.stop();
+            });
+            stage.setScene(scene);
+        });
+
+        //Checking whether sound on or off
+        AtomicBoolean isPlayingSound = new AtomicBoolean(true);
+
+        2
+        bSound.setOnAction(actionEvent ->  {
+            clickPlayer.play();
+            clickPlayer.setOnEndOfMedia(() -> {
+                clickPlayer.stop();
+            });
+
+            if(!isPlayingSound.get()){
+                isPlayingSound.set(true);
+                bSound.setText("Sound: ON");
+            }else{
+                isPlayingSound.set(false);
+                bSound.setText("Sound: OFF");
+            }
+
+        });
+        //Checking whether menu music is playing or not
+        AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
+        bMusic.setOnAction(actionEvent ->  {
+            clickPlayer.play();
+            clickPlayer.setOnEndOfMedia(() -> {
+                clickPlayer.stop();
+            });
+
+
+
+
+            if(!isPlayingMenu.get()){
+                isPlayingMenu.set(true);
+                menuPlay.play();
+                bMusic.setText("Music: ON");
+            }else{
+                isPlayingMenu.set(false);
+                menuPlay.pause();
+                bMusic.setText("Music: OFF");
+            }
+
+
+        });
+
 
     }
 
