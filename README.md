@@ -5,4 +5,7 @@ Minotaurus was supposed to be a maze-like game where you are running from minota
 ##Screenshots
 <img src= "readme/shot.PNG">Game Menu
 
+##Video
+https://youtu.be/NfQFLmto3KU
+
 Unfortunately the game was not ready due to difficulties with understanding of gridpane in last 3 days before submission and extreme amount of procrastination. Completed work is planned to be submitted on finals.
