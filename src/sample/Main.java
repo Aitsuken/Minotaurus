@@ -174,8 +174,7 @@ public class Main extends Application {
 
         //Checking whether sound on or off
         AtomicBoolean isPlayingSound = new AtomicBoolean(true);
-
-        2
+        
         bSound.setOnAction(actionEvent ->  {
             clickPlayer.play();
             clickPlayer.setOnEndOfMedia(() -> {
