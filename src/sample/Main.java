@@ -2,8 +2,10 @@ package sample;
 
 
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,21 +28,23 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent faggot = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Font font = Font.font("Times New Roman", FontWeight.BOLD, 48);
 
-        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         String playClick = System.getProperty("user.dir") + "/src/sounds/select.wav";
         String srcMenuMusic = System.getProperty("user.dir") + "/src/sounds/menu.mp3";
 
         String picture = System.getProperty("user.dir") + "/src/minotaur.png";
 
 
-        Media click = new Media(new File(playClick).toURI().toString());
-        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());
 
-        MediaPlayer clickPlayer = new MediaPlayer(click);
-        MediaPlayer menuPlay = new MediaPlayer(menuMusic);
+/*        Media click = new Media("select.wav");
+        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());*/
+
+
+/*        MediaPlayer clickPlayer = new MediaPlayer(click);
+        MediaPlayer menuPlay = new MediaPlayer(menuMusic);*/
 
         Image image = new Image("/sample/minotaur.png");
         ImageView view = new ImageView(image);
@@ -111,7 +115,7 @@ public class Main extends Application {
         Group sRoot = new Group(view3, bBack2, bSound, bMusic);
         Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
-        menuPlay.play();
+        //menuPlay.play();
 
         Scene sGame = new Scene(gRoot, 1280, 720, Color.BEIGE);
         Scene sAbout = new Scene(aRoot, 1280, 720, Color.BEIGE);
@@ -122,16 +126,14 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-
+        sounds click = new sounds("/sounds/select.wav");
         bStart.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
-            });
+            click.play();
+            click.player.setOnEndOfMedia(click::stop);
             //stage.setScene(sGame);
         });
 
-        bSettings.setOnAction(actionEvent ->  {
+        /*bSettings.setOnAction(actionEvent ->  {
             clickPlayer.play();
             clickPlayer.setOnEndOfMedia(() -> {
                 clickPlayer.stop();
@@ -170,15 +172,15 @@ public class Main extends Application {
                 clickPlayer.stop();
             });
             stage.setScene(scene);
-        });
+        });*/
 
         //Checking whether sound on or off
         AtomicBoolean isPlayingSound = new AtomicBoolean(true);
         
         bSound.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
+            click.play();
+            click.player.setOnEndOfMedia(() -> {
+                click.stop();
             });
 
             if(!isPlayingSound.get()){
@@ -193,15 +195,15 @@ public class Main extends Application {
         //Checking whether menu music is playing or not
         AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
         bMusic.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
+            click.play();
+            click.player.setOnEndOfMedia(() -> {
+                click.stop();
             });
 
 
 
 
-            if(!isPlayingMenu.get()){
+            /*if(!isPlayingMenu.get()){
                 isPlayingMenu.set(true);
                 menuPlay.play();
                 bMusic.setText("Music: ON");
@@ -209,7 +211,7 @@ public class Main extends Application {
                 isPlayingMenu.set(false);
                 menuPlay.pause();
                 bMusic.setText("Music: OFF");
-            }
+            }*/
 
 
         });
