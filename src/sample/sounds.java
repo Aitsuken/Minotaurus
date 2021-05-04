@@ -7,7 +7,7 @@ import javafx.scene.media.MediaPlayer;
 public class sounds {
 
     String fileName;
-    public static final MediaPlayer player = new MediaPlayer();
+    public MediaPlayer player;
 /*    file:///" + System.getProperty("user.dir").replace('\\', '/') + "/*/
     sounds(String fileName){
         this.fileName = fileName;

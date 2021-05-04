@@ -25,9 +25,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static javafx.application.Platform.exit;
 
 public class Main extends Application {
-
+    sounds click;
     @Override
     public void start(Stage stage) throws Exception{
+        click = new sounds("/sounds/select.wav");
         Parent faggot = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Font font = Font.font("Times New Roman", FontWeight.BOLD, 48);
 
@@ -126,7 +127,6 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        sounds click = new sounds("/sounds/select.wav");
         bStart.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(click::stop);
@@ -175,7 +175,8 @@ public class Main extends Application {
         });*/
 
         //Checking whether sound on or off
-        AtomicBoolean isPlayingSound = new AtomicBoolean(true);
+
+/*        AtomicBoolean isPlayingSound = new AtomicBoolean(true);
         
         bSound.setOnAction(actionEvent ->  {
             click.play();
@@ -191,9 +192,10 @@ public class Main extends Application {
                 bSound.setText("Sound: OFF");
             }
 
-        });
+        });*/
         //Checking whether menu music is playing or not
-        AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
+
+/*        AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
         bMusic.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(() -> {
@@ -203,7 +205,7 @@ public class Main extends Application {
 
 
 
-            /*if(!isPlayingMenu.get()){
+            if(!isPlayingMenu.get()){
                 isPlayingMenu.set(true);
                 menuPlay.play();
                 bMusic.setText("Music: ON");
@@ -211,10 +213,10 @@ public class Main extends Application {
                 isPlayingMenu.set(false);
                 menuPlay.pause();
                 bMusic.setText("Music: OFF");
-            }*/
+            }
 
 
-        });
+        });*/
 
 
     }
