@@ -17,7 +17,8 @@ public class sounds {
         player = new MediaPlayer(m);
     }
     public void play(){
-            player.play();
+
+        player.play();
     }
     public void stop(){
         player.stop();

@@ -125,7 +125,8 @@ public class Main extends Application {
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
 
         //scene.getStylesheets().add(getClass().getResource("src/sample/CSS/style.css").toExternalForm());
-        scene.getStylesheets().add(System.getProperty("user.dir")+ "/src/sample/CSS/style.css");
+        //scene.getStylesheets().add(System.getProperty("user.dir")+ "/src/sample/CSS/style.css");
+        scene.getStylesheets().add("/sample/CSS/style.css");
         //playing music
         menuMusic.player.play();
         menuMusic.player.setVolume(0.4);
@@ -136,6 +137,8 @@ public class Main extends Application {
         Scene sAbout = new Scene(aRoot, 1280, 720, Color.BEIGE);
         Scene sSettings = new Scene(sRoot, 1280, 720, Color.BEIGE);
 
+        sAbout.getStylesheets().add("/sample/CSS/style.css");
+        sSettings.getStylesheets().add("/sample/CSS/style.css");
 
         stage.setTitle("Minotaurus");
         stage.setScene(scene);
