@@ -25,10 +25,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static javafx.application.Platform.exit;
 
 public class Main extends Application {
+
     sounds click;
+    sounds menuMusic;
     @Override
+
     public void start(Stage stage) throws Exception{
-        click = new sounds("/sounds/select.wav");
+        //click = new sounds("select.wav");
+
+
         Parent faggot = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Font font = Font.font("Times New Roman", FontWeight.BOLD, 48);
 
@@ -39,12 +44,14 @@ public class Main extends Application {
         String picture = System.getProperty("user.dir") + "/src/minotaur.png";
 
 
+        click = new sounds("src/sample/sounds/select.wav");
+        menuMusic = new sounds("src/sample/sounds/menu.mp3");
 
-/*        Media click = new Media("select.wav");
-        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());*/
 
+/*        Media click = new Media(new File("src/sample/sounds/select.wav").toURI().toString());
+        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());
 
-/*        MediaPlayer clickPlayer = new MediaPlayer(click);
+        MediaPlayer clickPlayer = new MediaPlayer(click);
         MediaPlayer menuPlay = new MediaPlayer(menuMusic);*/
 
         Image image = new Image("/sample/minotaur.png");
@@ -98,7 +105,7 @@ public class Main extends Application {
 
 
         String strAbout = "Minotaurus - is a not so funny game about mazes and running away from " +
-                "minotaur. So far there is not minotaur yet. But I will probably add him on finals. " +
+                "minotaur. So far there is no minotaur yet. But I will probably add him on finals. " +
                 "For it is a simple maze with almost no difficulties. Enjoy your short  time wasting!";
         Label lAbout = new Label(strAbout);
         //lAbout.setPrefSize(10, 20);
@@ -116,7 +123,13 @@ public class Main extends Application {
         Group sRoot = new Group(view3, bBack2, bSound, bMusic);
         Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
-        //menuPlay.play();
+
+        //scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        //playing music
+        menuMusic.player.play();
+        menuMusic.player.setVolume(0.4);
+
+
 
         Scene sGame = new Scene(gRoot, 1280, 720, Color.BEIGE);
         Scene sAbout = new Scene(aRoot, 1280, 720, Color.BEIGE);
@@ -133,50 +146,42 @@ public class Main extends Application {
             //stage.setScene(sGame);
         });
 
-        /*bSettings.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
-            });
+        bSettings.setOnAction(actionEvent ->  {
+            click.play();
+            click.player.setOnEndOfMedia(click::stop);
             stage.setScene(sSettings);
 
         });
 
         bAbout.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
-            });
+            click.play();
+            click.player.setOnEndOfMedia(click::stop);
             stage.setScene(sAbout);
         });
 
         bExit.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
+            click.play();
+            click.player.setOnEndOfMedia(() -> {
                 exit();
             });
         });
 
         //aux buttons
         bBack.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
-            });
+            click.play();
+            click.player.setOnEndOfMedia(click::stop);
             stage.setScene(scene);
         });
 
         bBack2.setOnAction(actionEvent ->  {
-            clickPlayer.play();
-            clickPlayer.setOnEndOfMedia(() -> {
-                clickPlayer.stop();
-            });
+            click.play();
+            click.player.setOnEndOfMedia(click::stop);
             stage.setScene(scene);
-        });*/
+        });
 
         //Checking whether sound on or off
 
-/*        AtomicBoolean isPlayingSound = new AtomicBoolean(true);
+        AtomicBoolean isPlayingSound = new AtomicBoolean(true);
         
         bSound.setOnAction(actionEvent ->  {
             click.play();
@@ -192,10 +197,10 @@ public class Main extends Application {
                 bSound.setText("Sound: OFF");
             }
 
-        });*/
+        });
         //Checking whether menu music is playing or not
 
-/*        AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
+        AtomicBoolean isPlayingMenu = new AtomicBoolean(true);
         bMusic.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(() -> {
@@ -207,16 +212,16 @@ public class Main extends Application {
 
             if(!isPlayingMenu.get()){
                 isPlayingMenu.set(true);
-                menuPlay.play();
+                menuMusic.player.play();
                 bMusic.setText("Music: ON");
             }else{
                 isPlayingMenu.set(false);
-                menuPlay.pause();
+                menuMusic.player.pause();
                 bMusic.setText("Music: OFF");
             }
 
 
-        });*/
+        });
 
 
     }

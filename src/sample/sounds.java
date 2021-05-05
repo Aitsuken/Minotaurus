@@ -3,6 +3,8 @@ package sample;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
+
 
 public class sounds {
 
@@ -11,7 +13,7 @@ public class sounds {
 /*    file:///" + System.getProperty("user.dir").replace('\\', '/') + "/*/
     sounds(String fileName){
         this.fileName = fileName;
-        Media m = new Media(fileName);
+        Media m = new Media(new File(fileName).toURI().toString());
         player = new MediaPlayer(m);
     }
     public void play(){
