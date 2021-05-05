@@ -124,7 +124,8 @@ public class Main extends Application {
         Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
 
-        //scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("src/sample/CSS/style.css").toExternalForm());
+        scene.getStylesheets().add(System.getProperty("user.dir")+ "/src/sample/CSS/style.css");
         //playing music
         menuMusic.player.play();
         menuMusic.player.setVolume(0.4);
