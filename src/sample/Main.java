@@ -31,13 +31,14 @@ public class Main extends Application {
     @Override
 
     public void start(Stage stage) throws Exception{
-        //click = new sounds("select.wav");
 
 
         Parent faggot = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Font font = Font.font("Times New Roman", FontWeight.BOLD, 48);
 
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
         String playClick = System.getProperty("user.dir") + "/src/sounds/select.wav";
         String srcMenuMusic = System.getProperty("user.dir") + "/src/sounds/menu.mp3";
 
@@ -48,11 +49,6 @@ public class Main extends Application {
         menuMusic = new sounds("src/sample/sounds/menu.mp3");
 
 
-/*        Media click = new Media(new File("src/sample/sounds/select.wav").toURI().toString());
-        Media menuMusic = new Media(new File(srcMenuMusic).toURI().toString());
-
-        MediaPlayer clickPlayer = new MediaPlayer(click);
-        MediaPlayer menuPlay = new MediaPlayer(menuMusic);*/
 
         Image image = new Image("/sample/minotaur.png");
         ImageView view = new ImageView(image);
@@ -124,10 +120,10 @@ public class Main extends Application {
         Group aRoot = new Group(view2, bBack, lAbout);
         Scene scene = new Scene(root, 1280, 720, Color.BEIGE);
 
-        //scene.getStylesheets().add(getClass().getResource("src/sample/CSS/style.css").toExternalForm());
-        //scene.getStylesheets().add(System.getProperty("user.dir")+ "/src/sample/CSS/style.css");
+
         scene.getStylesheets().add("/sample/CSS/style.css");
-        //playing music
+
+
         menuMusic.player.play();
         menuMusic.player.setVolume(0.4);
 
@@ -147,7 +143,7 @@ public class Main extends Application {
         bStart.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(click::stop);
-            //stage.setScene(sGame);
+            stage.setScene(sGame);
         });
 
         bSettings.setOnAction(actionEvent ->  {
