@@ -142,11 +142,17 @@ public class Main extends Application {
 
         Game game = new Game();
 
+
         bStart.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(click::stop);
+
             stage.setScene(Game.geemu);
-            stage.setTitle("Minotaurus");
+            game.gaming();
+            Thread runner = new Thread(String.valueOf(this));
+            runner.setDaemon(true);  // won't stop program from ending
+            runner.start();
+            stage.setTitle("Game");
 
         });
 

@@ -16,6 +16,7 @@ public class Game {
     final int wallCode = 1;
     final int emptyCode = 3;
     public static Scene geemu;
+    public Pane root;
     Canvas canvas;      // the canvas where the maze is drawn and which fills the whole window
     GraphicsContext g;  // graphics context for drawing on the canvas
 
@@ -23,8 +24,7 @@ public class Game {
     int rows = 31;          // number of rows of cells in maze, including a wall around edges
     int columns = 51;       // number of columns of cells in maze, including a wall around edges
     int blockSize = 20;     // size of each cell
-    int sleepTime = 4000;   // wait time after solving one maze before making another, in milliseconds
-    int speedSleep = 20;    // short delay between steps in making and solving maze
+    int speedSleep = 0;    // short delay between steps in making and solving maze
 
 
     public Game(){
@@ -38,20 +38,22 @@ public class Game {
                 Color.WHITE,
                 Color.rgb(200,200,200)
         };
+
+    }
+    void gaming(){
         maze = new int[rows][columns];
         canvas = new Canvas(columns*blockSize, rows*blockSize);
         g = canvas.getGraphicsContext2D();
         g.setFill(color[backgroundCode]);
         g.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
-        Pane root = new Pane(canvas);
+        root = new Pane(canvas);
         geemu = new Scene(root);
+        makeMaze();
 /*        stage.setScene(scene);
-        stage.setResizable(false);
+
         stage.setTitle("Maze Generator/Solve");
         stage.show();*/
-        Thread runner = new Thread(String.valueOf(this));
-        runner.setDaemon(true);  // so thread won't stop program from ending
-        runner.start();
+
     }
     void drawSquare( int row, int column, int colorCode ) {
         // Fill specified square of the grid with the
@@ -67,28 +69,10 @@ public class Game {
 
     public void run() {
 
-        // Run method for thread repeatedly makes a maze and then solves it.
-        // Note that all access to the canvas by the thread is done using
-        // Platform.runLater(), so that all drawing to the canvas actually
-        // takes place on the application thread.
-
-
-
-        makeMaze();
-/*            synchronized(this) {
-                try { wait(sleepTime); }
-                catch (InterruptedException e) { }
-            }*/
-
 
     }
 
     void makeMaze() {
-        // Create a random maze.  The strategy is to start with
-        // a grid of disconnected "rooms" separated by walls,
-        // then look at each of the separating walls, in a random
-        // order.  If tearing down a wall would not create a loop
-        // in the maze, then tear it down.  Otherwise, leave it in place.
 
         int i,j;
         int emptyCt = 0; // number of rooms
@@ -145,13 +129,6 @@ public class Game {
     }
 
     void tearDown(int row, int col) {
-        // Tear down a wall, unless doing so will form a loop.  Tearing down a wall
-        // joins two "rooms" into one "room".  (Rooms begin to look like corridors
-        // as they grow.)  When a wall is torn down, the room codes on one side are
-        // converted to match those on the other side, so all the cells in a room
-        // have the same code.  Note that if the room codes on both sides of a
-        // wall already have the same code, then tearing down that wall would
-        // create a loop, so the wall is left in place.
 
 
 
@@ -160,27 +137,17 @@ public class Game {
             fill(row, col-1, maze[row][col-1], maze[row][col+1]);
             maze[row][col] = maze[row][col+1];
             drawSquare(row,col,emptyCode);
-            synchronized(this) {
-                try { wait(speedSleep); }
-                catch (InterruptedException e) { }
-            }
+
         }
         else if (row % 2 == 0 && maze[row-1][col] != maze[row+1][col]) {
             // row is even; wall separates rooms vertically
             fill(row-1, col, maze[row-1][col], maze[row+1][col]);
             maze[row][col] = maze[row+1][col];
             drawSquare(row,col,emptyCode);
-            synchronized(this) {
-                try { wait(speedSleep); }
-                catch (InterruptedException e) { }
-            }
         }
     }
 
     void fill(int row, int col, int replace, int replaceWith) {
-        // called by tearDown() to change "room codes".
-        // (THIS ALGORITHM should have used the standard
-        //  union/find data structure.)
         if (maze[row][col] == replace) {
             maze[row][col] = replaceWith;
             fill(row+1,col,replace,replaceWith);
@@ -193,20 +160,6 @@ public class Game {
 
 
 }
-
-
-    //------------------------------------------------------------------------
-
-  // Description of state of maze.  The value of maze[i][j]
-    // is one of the constants wallCode, pathcode, emptyCode,
-    // or visitedCode.  (Value can also be negative, temporarily,
-    // inside createMaze().)
-    //    A maze is made up of walls and corridors.  maze[i][j]
-    // is either part of a wall or part of a corridor.  A cell
-    // that is part of a corridor is represented by pathCode
-    // if it is part of the current path through the maze, by
-    // visitedCode if it has already been explored without finding
-    // a solution, and by emptyCode if it has not yet been explored.
 
 
 
