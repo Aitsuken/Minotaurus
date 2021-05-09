@@ -9,40 +9,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/*public class Game {
+public class Game {
 
-    public Game(){
-        
-    }
-
-    
-}*/
-
-
-
-
-public class Game extends Application implements Runnable {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-    //------------------------------------------------------------------------
-
-    int[][] maze;   // Description of state of maze.  The value of maze[i][j]
-    // is one of the constants wallCode, pathcode, emptyCode,
-    // or visitedCode.  (Value can also be negative, temporarily,
-    // inside createMaze().)
-    //    A maze is made up of walls and corridors.  maze[i][j]
-    // is either part of a wall or part of a corridor.  A cell
-    // that is part of a corridor is represented by pathCode
-    // if it is part of the current path through the maze, by
-    // visitedCode if it has already been explored without finding
-    // a solution, and by emptyCode if it has not yet been explored.
-
-    final static int backgroundCode = 0;
-    final static int wallCode = 1;
-    final static int emptyCode = 3;
-
+    int[][] maze;
+    final int backgroundCode = 0;
+    final int wallCode = 1;
+    final int emptyCode = 3;
+    public static Scene geemu;
     Canvas canvas;      // the canvas where the maze is drawn and which fills the whole window
     GraphicsContext g;  // graphics context for drawing on the canvas
 
@@ -54,7 +27,10 @@ public class Game extends Application implements Runnable {
     int speedSleep = 20;    // short delay between steps in making and solving maze
 
 
-    public void start(Stage stage) {
+    public Game(){
+
+
+
         color = new Color[] {
                 Color.rgb(200,0,0),
                 Color.rgb(200,0,0),
@@ -68,16 +44,15 @@ public class Game extends Application implements Runnable {
         g.setFill(color[backgroundCode]);
         g.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         Pane root = new Pane(canvas);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        geemu = new Scene(root);
+/*        stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Maze Generator/Solve");
-        stage.show();
-        Thread runner = new Thread(this);
+        stage.show();*/
+        Thread runner = new Thread(String.valueOf(this));
         runner.setDaemon(true);  // so thread won't stop program from ending
         runner.start();
     }
-
     void drawSquare( int row, int column, int colorCode ) {
         // Fill specified square of the grid with the
         // color specified by colorCode, which has to be
@@ -99,7 +74,7 @@ public class Game extends Application implements Runnable {
 
 
 
-            makeMaze();
+        makeMaze();
 /*            synchronized(this) {
                 try { wait(sleepTime); }
                 catch (InterruptedException e) { }
@@ -218,4 +193,23 @@ public class Game extends Application implements Runnable {
 
 
 }
+
+
+    //------------------------------------------------------------------------
+
+  // Description of state of maze.  The value of maze[i][j]
+    // is one of the constants wallCode, pathcode, emptyCode,
+    // or visitedCode.  (Value can also be negative, temporarily,
+    // inside createMaze().)
+    //    A maze is made up of walls and corridors.  maze[i][j]
+    // is either part of a wall or part of a corridor.  A cell
+    // that is part of a corridor is represented by pathCode
+    // if it is part of the current path through the maze, by
+    // visitedCode if it has already been explored without finding
+    // a solution, and by emptyCode if it has not yet been explored.
+
+
+
+
+
 

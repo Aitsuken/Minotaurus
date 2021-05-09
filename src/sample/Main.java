@@ -140,10 +140,14 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+        Game game = new Game();
+
         bStart.setOnAction(actionEvent ->  {
             click.play();
             click.player.setOnEndOfMedia(click::stop);
-            stage.setScene(sGame);
+            stage.setScene(Game.geemu);
+            stage.setTitle("Minotaurus");
+
         });
 
         bSettings.setOnAction(actionEvent ->  {
